@@ -20,8 +20,9 @@ public final class CamelBasic {
         return new RouteBuilder() {
             @Override
             public void configure() {
-                from("timer:foo")
-                        .log("Hello Camel");
+                from("imap://127.0.0.1:3143?username=bbb&password=soooosecret&delete=false&unseen=true")
+                        .log("Email subject: ${header.subject}")
+                        .log("Email body: ${body}");
             }
         };
     }
