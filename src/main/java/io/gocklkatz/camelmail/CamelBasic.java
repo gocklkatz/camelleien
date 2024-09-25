@@ -1,4 +1,4 @@
-package io.gocklkatz;
+package io.gocklkatz.camelmail;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;

@@ -1,4 +1,4 @@
-package io.gocklkatz;
+package io.gocklkatz.camelmail;
 
 import com.icegreen.greenmail.user.GreenMailUser;
 import com.icegreen.greenmail.util.GreenMail;

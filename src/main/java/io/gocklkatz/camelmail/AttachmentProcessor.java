@@ -1,4 +1,4 @@
-package io.gocklkatz;
+package io.gocklkatz.camelmail;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMultipart;
