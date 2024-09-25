@@ -22,7 +22,8 @@ public final class CamelBasic {
             public void configure() {
                 from("imap://127.0.0.1:3143?username=bbb&password=soooosecret&delete=false&unseen=true")
                         .log("Email subject: ${header.subject}")
-                        .log("Email body: ${body}");
+                        .log("Email body: ${body}")
+                        .bean(AttachmentProcessor.class);
             }
         };
     }
