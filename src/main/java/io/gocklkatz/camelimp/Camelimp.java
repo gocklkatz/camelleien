@@ -12,13 +12,21 @@ public class Camelimp {
             camelContext.addRoutes(new RouteBuilder() {
                 @Override
                 public void configure() {
+                    /*
                     from("timer://foo?fixedRate=true&period=1000")
                             .log("Loggit!");
+                     */
+                    from("file:///Users/katzi/Downloads/ain")
+                            .process(exchange -> {
+                                Object o = exchange.getIn().getBody();
+                                System.out.println("o = " + o);
+                            })
+                            .to("file:///Users/katzi/Downloads/aout");
                 }
             });
             camelContext.start();
 
-            Thread.sleep(10_000);
+            Thread.sleep(30_000);
 
         } catch (Exception e) {
             e.printStackTrace();
