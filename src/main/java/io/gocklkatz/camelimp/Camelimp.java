@@ -17,6 +17,7 @@ public class Camelimp {
                 from("timer://foo?fixedRate=true&period=1000")
                         .log("Loggit!");
                  */
+                /*
                 from("file:///Users/katzi/Downloads/ain?noop=true")
                         .process(exchange -> {
                             Message m = exchange.getIn();
@@ -26,11 +27,15 @@ public class Camelimp {
                             System.out.println("o = " + o);
                         })
                         .to("file:///Users/katzi/Downloads/aout");
+                 */
+                from("file:///Users/katzi/Downloads/ain")
+                        .filter().xpath("/order[not(@test)]")
+                        .to("file:///Users/katzi/Downloads/aout");
             }
         });
 
         camelContext.start();
-        Thread.sleep(10_000);
+        Thread.sleep(30_000);
 
         camelContext.stop();
     }
