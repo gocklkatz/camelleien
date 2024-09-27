@@ -1,9 +1,12 @@
 package io.gocklkatz.camelimp;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.Message;
+import org.apache.camel.attachment.Attachment;
+import org.apache.camel.attachment.AttachmentMessage;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+
+import java.util.Map;
 
 public class Camelimp {
 
@@ -28,9 +31,28 @@ public class Camelimp {
                         })
                         .to("file:///Users/katzi/Downloads/aout");
                  */
+                /*
                 from("file:///Users/katzi/Downloads/ain")
                         .filter().xpath("/order[not(@test)]")
                         .to("file:///Users/katzi/Downloads/aout");
+                 */
+                from("file:///Users/katzi/Downloads/ain?noop=true")
+                        .setHeader("Content-Type", constant("multipart/*"))
+                        .unmarshal().mimeMultipart()
+                        .process(exchange -> {
+                            AttachmentMessage attachmentMessage = exchange.getIn(AttachmentMessage.class);
+                            Map<String, Attachment> attachments = attachmentMessage.getAttachmentObjects();
+                            if (attachments.isEmpty()) {
+                                System.out.println("No attachments found.");
+                            } else {
+                                for (Map.Entry<String, org.apache.camel.attachment.Attachment> entry : attachments.entrySet()) {
+                                    String attachmentName = entry.getKey();
+                                    org.apache.camel.attachment.Attachment attachment = entry.getValue();
+                                    System.out.println("Attachment name: " + attachmentName);
+                                    System.out.println("Attachment content: " + attachment.getDataHandler().getContent());
+                                }
+                            }
+                        });
             }
         });
 
