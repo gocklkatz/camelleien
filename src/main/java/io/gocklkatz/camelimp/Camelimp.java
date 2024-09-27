@@ -5,6 +5,7 @@ import org.apache.camel.attachment.Attachment;
 import org.apache.camel.attachment.AttachmentMessage;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.eclipse.angus.mail.util.BASE64DecoderStream;
 
 import java.util.Map;
 
@@ -46,10 +47,12 @@ public class Camelimp {
                                 System.out.println("No attachments found.");
                             } else {
                                 for (Map.Entry<String, org.apache.camel.attachment.Attachment> entry : attachments.entrySet()) {
-                                    String attachmentName = entry.getKey();
+                                    //String attachmentName = entry.getKey();
                                     org.apache.camel.attachment.Attachment attachment = entry.getValue();
-                                    System.out.println("Attachment name: " + attachmentName);
-                                    System.out.println("Attachment content: " + attachment.getDataHandler().getContent());
+                                    //System.out.println("Attachment name: " + attachmentName);
+                                    BASE64DecoderStream stream = (BASE64DecoderStream) attachment.getDataHandler().getContent();
+                                    byte[] bytes = stream.readAllBytes();
+                                    System.out.println(new String(bytes));
                                 }
                             }
                         });
