@@ -3,6 +3,8 @@ package io.gocklkatz.camelimp;
 import jakarta.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -21,6 +23,11 @@ public class Camelouting {
             @Override
             public void configure() {
                 from("ftp://localhost?username=ftpuser&password=sososecret")
+                        .process(exchange -> {
+                            System.out.println(
+                                    "We just downloaded: " + exchange.getIn().getHeader("CamelFileName")
+                            );
+                        })
                         .to("jms:queue:incomingOrders");
             }
         });
