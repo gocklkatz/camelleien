@@ -12,7 +12,8 @@ public class Camelouting {
         context.addRoutes(new RouteBuilder() {
             @Override
             public void configure() {
-
+                from("ftp://localhost?username=ftpuser&password=sososecret")
+                        .log("xxx");
             }
         });
 
