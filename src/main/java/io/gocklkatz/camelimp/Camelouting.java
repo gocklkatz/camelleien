@@ -34,8 +34,13 @@ public class Camelouting {
             @Override
             public void configure() throws Exception {
                 from("file://C:\\Users\\Stefan Katzensteiner\\Downloads\\ain?noop=true")
-                        .convertBodyTo(String.class)
-                        .log("Received message: ${body}");
+                .choice()
+                    .when(header("CamelFileName")
+                    .endsWith(".xml"))
+                        .log("Choice 1")
+                    .when(header("CamelFileName")
+                    .endsWith(".csv"))
+                        .log("Choice 2");
             }
         });
 
