@@ -38,7 +38,9 @@ public class Camelouting {
                     .when(x -> ((String) x.getIn().getHeader("CamelFileName")).endsWith(".xml"))
                         .log("Choice 1")
                     .when(header("CamelFileName").endsWith(".csv"))
-                        .log("Choice 2");
+                        .log("Choice 2")
+                    .otherwise()
+                        .log("Choice 3");
             }
         });
 
