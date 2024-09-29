@@ -34,13 +34,24 @@ public class Camelouting {
             @Override
             public void configure() throws Exception {
                 from("file://C:\\Users\\Stefan Katzensteiner\\Downloads\\ain?noop=true")
+                .process(exchange -> {
+                    exchange.getIn().setHeader("myDest", "xml");
+                })
                 .choice()
                     .when(x -> ((String) x.getIn().getHeader("CamelFileName")).endsWith(".xml"))
                         .log("Choice 1")
+                        .toD("direct:${header.myDest}")
                     .when(header("CamelFileName").endsWith(".csv"))
                         .log("Choice 2")
                     .otherwise()
-                        .log("Choice 3");
+                        .log("Choice 3")
+                        .stop()
+                .end()
+                .log("More stuff");
+
+                from("direct:xml")
+                    .filter(xpath("/order[not(@test)]"))
+                    .log("PROD order xml");
             }
         });
 
