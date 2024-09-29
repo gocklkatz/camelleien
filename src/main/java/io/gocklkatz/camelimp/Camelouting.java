@@ -1,12 +1,8 @@
 package io.gocklkatz.camelimp;
 
-import jakarta.jms.ConnectionFactory;
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.component.file.GenericFile;
 import org.apache.camel.impl.DefaultCamelContext;
 
 public class Camelouting {
@@ -14,6 +10,7 @@ public class Camelouting {
     public static void main(String[] args) throws Exception {
         CamelContext context = new DefaultCamelContext();
 
+        /*
         ConnectionFactory connectionFactory =
                 new ActiveMQConnectionFactory("vm://localhost");
         context.addComponent("jms",
@@ -31,9 +28,19 @@ public class Camelouting {
                         .to("jms:queue:incomingOrders");
             }
         });
+         */
+
+        context.addRoutes(new RouteBuilder() {
+            @Override
+            public void configure() throws Exception {
+                from("file://C:\\Users\\Stefan Katzensteiner\\Downloads\\ain?noop=true")
+                        .convertBodyTo(String.class)
+                        .log("Received message: ${body}");
+            }
+        });
 
         context.start();
-        Thread.sleep(10000);
+        Thread.sleep(30_000);
         context.stop();
     }
 }
