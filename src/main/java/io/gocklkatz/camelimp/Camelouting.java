@@ -40,7 +40,7 @@ public class Camelouting {
         });
 
         context.start();
-        Thread.sleep(30_000);
+        Thread.sleep(10_000);
         context.stop();
     }
 }
