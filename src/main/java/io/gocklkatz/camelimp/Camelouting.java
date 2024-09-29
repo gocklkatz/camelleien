@@ -35,11 +35,9 @@ public class Camelouting {
             public void configure() throws Exception {
                 from("file://C:\\Users\\Stefan Katzensteiner\\Downloads\\ain?noop=true")
                 .choice()
-                    .when(header("CamelFileName")
-                    .endsWith(".xml"))
+                    .when(header("CamelFileName").endsWith(".xml"))
                         .log("Choice 1")
-                    .when(header("CamelFileName")
-                    .endsWith(".csv"))
+                    .when(header("CamelFileName").endsWith(".csv"))
                         .log("Choice 2");
             }
         });
