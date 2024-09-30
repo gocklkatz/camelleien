@@ -12,25 +12,35 @@ public class Camelouting {
         context.addRoutes(new RouteBuilder() {
             @Override
             public void configure() {
-                from("file:///Users/katzi/Downloads/ain?noop=true")
-                        .process(exchange -> {
-                            String custom = exchange.getIn().getBody(String.class);
-                            System.out.println(exchange.getIn().getHeader("CamelFileName"));
-                            exchange.getIn().setBody(custom + " - Customized");
-                        })
-                        .process(exchange -> {
-                            System.out.println(exchange.getIn().getHeader("CamelFileName"));
-                        });
+
+                from("timer:mytimer?period=2000")
+                    .to("http://www.google.com")
+                    .process(exchange -> {
+                        String custom = exchange.getIn().getBody(String.class);
+                        System.out.println(custom);
+                    });
 
                 /*
                 from("file:///Users/katzi/Downloads/ain?noop=true")
-                .choice()
-                    .when(x -> ((String) x.getIn().getHeader("CamelFileName")).endsWith(".xml"))
-                        .log("Choice 1")
-                    .when(header("CamelFileName").endsWith(".csv"))
-                        .log("Choice 2")
-                    .otherwise()
-                        .log("Choice 3");
+                    .process(exchange -> {
+                        String custom = exchange.getIn().getBody(String.class);
+                        System.out.println(exchange.getIn().getHeader("CamelFileName"));
+                        exchange.getIn().setBody(custom + " - Customized");
+                    })
+                    .process(exchange -> {
+                        System.out.println(exchange.getIn().getHeader("CamelFileName"));
+                    });
+                 */
+
+                /*
+                from("file:///Users/katzi/Downloads/ain?noop=true")
+                    .choice()
+                        .when(x -> ((String) x.getIn().getHeader("CamelFileName")).endsWith(".xml"))
+                            .log("Choice 1")
+                        .when(header("CamelFileName").endsWith(".csv"))
+                            .log("Choice 2")
+                        .otherwise()
+                            .log("Choice 3");
                  */
             }
         });
