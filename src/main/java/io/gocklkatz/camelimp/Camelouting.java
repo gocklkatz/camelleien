@@ -1,8 +1,6 @@
 package io.gocklkatz.camelimp;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 
@@ -14,22 +12,25 @@ public class Camelouting {
         context.addRoutes(new RouteBuilder() {
             @Override
             public void configure() {
-
-                from("timer://foo?fixedRate=true&period=1000")
-                        .process(new Processor() {
-                            public void process(Exchange exchange) throws Exception {
-                                System.out.println("Timer triggered.");
-                            }
+                from("file:///Users/katzi/Downloads/ain?noop=true")
+                        .process(exchange -> {
+                            String custom = exchange.getIn().getBody(String.class);
+                            System.out.println(exchange.getIn().getHeader("CamelFileName"));
+                            exchange.getIn().setBody(custom + " - Customized");
+                        })
+                        .process(exchange -> {
+                            System.out.println(exchange.getIn().getHeader("CamelFileName"));
                         });
 
                 /*
-                from("ftp://localhost?username=ftpuser&password=sososecret")
-                        .process(exchange -> {
-                            System.out.println(
-                                    "We just downloaded: " + exchange.getIn().getHeader("CamelFileName")
-                            );
-                        })
-                        .to("jms:queue:incomingOrders");
+                from("file:///Users/katzi/Downloads/ain?noop=true")
+                .choice()
+                    .when(x -> ((String) x.getIn().getHeader("CamelFileName")).endsWith(".xml"))
+                        .log("Choice 1")
+                    .when(header("CamelFileName").endsWith(".csv"))
+                        .log("Choice 2")
+                    .otherwise()
+                        .log("Choice 3");
                  */
             }
         });
