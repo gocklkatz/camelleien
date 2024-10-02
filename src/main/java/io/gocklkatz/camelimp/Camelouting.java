@@ -13,6 +13,17 @@ public class Camelouting {
             @Override
             public void configure() {
 
+                from("timer:mytimer?period=30000")
+                    .process(exchange -> {
+                        exchange.getIn().setBody("Hello World");
+                    })
+                    .transform(body().regexReplaceAll(" ", " - "))
+                    .process(exchange -> {
+                        String custom = exchange.getIn().getBody(String.class);
+                        System.out.println(custom);
+                    });
+
+                /*
                 from("timer:mytimer?period=2000")
                         .to("http://www.google.com")
                         .bean(new DoSomeThing())
@@ -20,6 +31,7 @@ public class Camelouting {
                             String custom = exchange.getIn().getBody(String.class);
                             System.out.println(custom);
                         });
+                 */
 
                 /*
                 from("timer:mytimer?period=2000")
