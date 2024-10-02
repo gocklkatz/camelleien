@@ -14,11 +14,21 @@ public class Camelouting {
             public void configure() {
 
                 from("timer:mytimer?period=2000")
+                        .to("http://www.google.com")
+                        .bean(new DoSomeThing())
+                        .process(exchange -> {
+                            String custom = exchange.getIn().getBody(String.class);
+                            System.out.println(custom);
+                        });
+
+                /*
+                from("timer:mytimer?period=2000")
                     .to("http://www.google.com")
                     .process(exchange -> {
                         String custom = exchange.getIn().getBody(String.class);
                         System.out.println(custom);
                     });
+                 */
 
                 /*
                 from("file:///Users/katzi/Downloads/ain?noop=true")
