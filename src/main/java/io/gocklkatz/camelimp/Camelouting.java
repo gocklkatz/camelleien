@@ -47,7 +47,7 @@ public class Camelouting {
                         .log("Choice 3")
                         .stop()
                 .end()
-                .log("More stuff");
+                .log("More stuff!");
 
                 from("direct:xml")
                     .filter(xpath("/order[not(@test)]"))
