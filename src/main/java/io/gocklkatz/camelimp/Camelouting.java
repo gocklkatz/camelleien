@@ -13,15 +13,31 @@ public class Camelouting {
             @Override
             public void configure() {
 
+                from("file://C:\\Users\\Stefan Katzensteiner\\Downloads\\ain?noop=true")
+                        .to("xslt:file://C:\\Users\\Stefan Katzensteiner\\Downloads\\transform.xsl")
+                        .process(exchange -> {
+                            String custom = exchange.getIn().getBody(String.class);
+                            System.out.println(custom);
+                        });
+
+                /*
                 from("timer:mytimer?period=30000")
                     .process(exchange -> {
                         exchange.getIn().setBody("Hello World");
                     })
-                    .transform(body().regexReplaceAll(" ", " - "))
+                    //.transform(body().regexReplaceAll(" ", " - "))
+                    .transform(new Expression() {
+                        public <T> T evaluate(Exchange exchange, Class<T> type) {
+                            String body = exchange.getIn().getBody(String.class);
+                            body = body.replaceAll(" ", " - ");
+                            return (T) body;
+                        }
+                    })
                     .process(exchange -> {
                         String custom = exchange.getIn().getBody(String.class);
                         System.out.println(custom);
                     });
+                 */
 
                 /*
                 from("timer:mytimer?period=2000")
