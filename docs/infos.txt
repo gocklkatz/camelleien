@@ -1,0 +1,4 @@
+- https://github.com/camelinaction/camelinaction2
+- https://docs.localstack.cloud/user-guide/integrations/aws-cli/
+- aws s3 mb s3://test --profile localstack
+- aws s3 ls --profile localstack
