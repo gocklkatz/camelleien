@@ -7,15 +7,15 @@ import org.apache.camel.component.aws2.s3.AWS2S3Configuration;
 import org.apache.camel.impl.DefaultCamelContext;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
 import java.net.URI;
 
-public class LocalStackCamel {
+public class LocalStackCamelS3 {
 
     public static void main(String[] args) throws Exception {
+
         final String ACCESS_KEY = "test";
         final String SECRET_KEY = "test";
 
