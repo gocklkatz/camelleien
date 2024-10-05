@@ -10,6 +10,8 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 
 import java.net.URI;
 
+//https://docs.localstack.cloud/user-guide/aws/sns/
+// Working with SQS subscriptions for SNS
 public class LocalStackCamelSqs {
     public static void main(String[] args) throws Exception {
 
